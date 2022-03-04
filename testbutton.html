@@ -1,0 +1,77 @@
+<!-- FlexDash TestButton node for Node-RED
+     Copyright (c) 2022 by Thorsten von Eicken, see LICENSE -->
+
+<script type="text/javascript">
+  RED.nodes.registerType('flexdash testbutton', {
+    // properties of the NR node used by NR itself
+    category: 'flexdash',
+    color: "#FDF0C2",
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-th", // icon in flow editor
+    paletteLabel: "flexdash testbutton",
+
+    // node config properties that the user can edit in the flow editor
+    defaults: {
+      // required fields for FlexDash Widget nodes
+      fd: { type:"flexdash config", value:"", required:true }, // FlexDash config node
+      fd_widget_id: { value: null }, // ID of widget in FlexDash to which this node corresponds
+
+      name: { value: '' }, // name field of NR node (standard)
+
+      // widget fields, i.e. values being transmitted to the FlexDash Widget
+      enabled: { value: true },
+      color: { value: "primary" },
+      output_value: { value: 25 },
+      icon: { value: null },
+      title: { value: 'Button' },
+    },
+
+    // NR node label
+    label() { return this.name || "flexdash testbutton" },
+    labelStyle() { return this.name ? "node_label_italic" : "" },
+
+    // Required for FD Widget nodes: need to connect to a widget in the FD config
+    oneditsave() {
+      const fd = RED.nodes.getNode(this.fd)
+      fd.connectWidget(this, 'PushButton')
+    },
+
+  });
+</script>
+
+<script type="text/html" data-template-name="flexdash testbutton">
+  <!-- Icons: https://fontawesome.com/v4/icons/ -->
+  <!-- input types: https://www.w3schools.com/tags/att_input_type.asp -->
+  <div class="form-row">
+    <label for="node-input-enabled"><i class="fa fa-check"></i>Enable button</span></label>
+    <input type="checkbox" id="node-input-enabled" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-title"><i class="fa fa-i-cursor"></i>Button text Label</span></label>
+    <input type="text" id="node-input-title" placeholder="action" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-icon"><i class="fa fa-i-cursor"></i>Button icon (material design icons)</span></label>
+    <input type="text" id="node-input-icon" placeholder="mdi-airplane-takeoff" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-color"><i class="fa fa-paint-brush"></i>Button Color</span></label>
+    <input type="color" id="node-input-color" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-output_value"><i class="fa fa-i-cursor"></i>Value output when pressed</span></label>
+    <input type="text" id="node-input-output_value" placeholder="output-value" />
+  </div>
+  </br>
+
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="flexdash testbutton">
+  <p>A Node-RED dashboard FlexDash node to display a button in a defined color on the dashboard.</p>
+  <p>This is test for integrating FlexDash nodes into Node-Red.</p>
+</script>

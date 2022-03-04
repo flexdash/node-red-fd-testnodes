@@ -1,0 +1,31 @@
+{
+  "name": "@flexdash/node-red-fd-testnodes",
+  "version": "0.0.1",
+  "description": "A set of Node-RED FlexDash nodes to test FlexDash integration into Node-RED.",
+  "peerDependencies": {
+      "@flexdash/node-red-flexdash": "^0.2.0"
+  },
+  "author": "Thorsten von Eicken",
+  "contributors": [
+    "Bart Butenaers (https://github.com/bartbutenaers)"
+  ],
+  "license": "MIT",
+  "keywords": [ "dashboard", "flexdash", "node-red", "example" ],
+  "bugs": {
+    "url":"https://github.com/flexdash/node-red-fd-testnodes/issues"
+  },
+  "homepage":"https://github.com/flexdash/node-red-fd-testnodes#README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flexdash/node-red-fd-testnodes.git"
+  },
+  "node-red": {
+    "nodes": {
+      "flexdash testbutton": "testbutton.js",
+      "flexdash testgauge": "testgauge.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

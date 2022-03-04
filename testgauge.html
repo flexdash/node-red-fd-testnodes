@@ -1,0 +1,85 @@
+<!-- FlexDash TestGauge node for Node-RED
+     Copyright (c) 2022 by Thorsten von Eicken, see LICENSE -->
+
+<script type="text/javascript">
+  RED.nodes.registerType('flexdash testgauge', {
+    // properties of the NR node used by NR itself
+    category: 'flexdash',
+    color: "#FDF0C2",
+    inputs: 1,
+    outputs: 0,
+    icon: "font-awesome/fa-th", // icon in flow editor
+    paletteLabel: "flexdash testgauge",
+
+    // node config properties that the user can edit in the flow editor
+    defaults: {
+      // required fields for FlexDash Widget nodes
+      fd: { type:"flexdash config", value:"", required:true }, // FlexDash config node
+      fd_widget_id: { value: null }, // ID of widget in FlexDash to which this node corresponds
+
+      name: { value: '' }, // name field of NR node (standard)
+
+      // widget fields, i.e. values being transmitted to the FlexDash Widget
+      value: { value: null },
+      unit: { value: "" },
+      title: { value: 'Gauge' },
+      color: { value: "green" },
+      arc: { value: 90 },
+      min: { value: 0 },
+      max: { value: 100 },
+    },
+
+    // NR node label
+    label() { return this.name || "flexdash testgauge" },
+    labelStyle() { return this.name ? "node_label_italic" : "" },
+
+    // Required for FD Widget nodes: need to connect to a widget in the FD config
+    oneditsave() {
+      const fd = RED.nodes.getNode(this.fd)
+      fd.connectWidget(this, 'Gauge')
+    },
+
+  });
+</script>
+
+<script type="text/html" data-template-name="flexdash testgauge">
+  <!-- Icons: https://fontawesome.com/v4/icons/ -->
+  <!-- input types: https://www.w3schools.com/tags/att_input_type.asp -->
+  <div class="form-row">
+    <label for="node-input-title"><i class="fa fa-i-cursor"></i>gauge text label</span></label>
+    <input type="text" id="node-input-title" placeholder="action" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-unit"><i class="fa fa-i-cursor"></i>superscript after the value</span></label>
+    <input type="text" id="node-input-unit" placeholder="°C" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-color"><i class="fa fa-paint-brush"></i>color of filled segment</span></label>
+    <input type="color" id="node-input-color" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-arc"><i class="fa fa-i-cursor"></i>degrees spanned by the arc of tha gauge</span></label>
+    <input type="number" id="node-input-arc" placeholder="90" />
+  </div>
+  </br>
+
+  <div class="form-row">
+    <label for="node-input-min"><i class="fa fa-i-cursor"></i>minimum value</span></label>
+    <input type="number" id="node-input-min" placeholder="0" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-max"><i class="fa fa-i-cursor"></i>maximum value</span></label>
+    <input type="number" id="node-input-max" placeholder="100" />
+  </div>
+  </br>
+
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="flexdash testgauge">
+  <p>A Node-RED dashboard FlexDash node to display a gauge on the dashboard.</p>
+  <p>This is test for integrating FlexDash nodes into Node-Red.</p>
+</script>
