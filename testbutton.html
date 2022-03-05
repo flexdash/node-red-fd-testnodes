@@ -8,15 +8,13 @@
     color: "#FDF0C2",
     inputs: 1,
     outputs: 1,
-    icon: "font-awesome/fa-th", // icon in flow editor
+    icon: "font-awesome/fa-hand-pointer-o", // icon in flow editor
     paletteLabel: "flexdash testbutton",
 
     // node config properties that the user can edit in the flow editor
     defaults: {
       // required fields for FlexDash Widget nodes
       fd: { type:"flexdash config", value:"", required:true }, // FlexDash config node
-      fd_widget_id: { value: null }, // ID of widget in FlexDash to which this node corresponds
-
       name: { value: '' }, // name field of NR node (standard)
 
       // widget fields, i.e. values being transmitted to the FlexDash Widget
@@ -30,13 +28,6 @@
     // NR node label
     label() { return this.name || "flexdash testbutton" },
     labelStyle() { return this.name ? "node_label_italic" : "" },
-
-    // Required for FD Widget nodes: need to connect to a widget in the FD config
-    oneditsave() {
-      const fd = RED.nodes.getNode(this.fd)
-      fd.connectWidget(this, 'PushButton')
-    },
-
   });
 </script>
 
@@ -69,6 +60,11 @@
     <label for="node-input-name"><i class="icon-tag"></i>Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
+  <div class="form-row">
+    <label for="node-input-fd"><i class="fa fa-tag"></i> Server</label>
+    <input type="text" id="node-input-fd">
+  </div>
+
 </script>
 
 <script type="text/html" data-help-name="flexdash testbutton">
