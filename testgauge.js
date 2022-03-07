@@ -8,6 +8,7 @@ module.exports = function (RED) {
   function flexdashTestGauge(config) {
     const fd = RED.nodes.getNode(config.fd) // get a handle onto FlexDash
     RED.nodes.createNode(this, config)
+    console.log('flexdashTestGauge:', JSON.stringify(config))
 
     // propagate this node's config to the FD widget
     // The third arg is the kind of widget to create, if it doesn't exist

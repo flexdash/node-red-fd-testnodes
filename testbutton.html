@@ -5,11 +5,11 @@
   RED.nodes.registerType('flexdash testbutton', {
     // properties of the NR node used by NR itself
     category: 'flexdash',
-    color: "#FDF0C2",
+    color: "#fdf0c2",
     inputs: 1,
     outputs: 1,
     icon: "font-awesome/fa-hand-pointer-o", // icon in flow editor
-    paletteLabel: "flexdash testbutton",
+    paletteLabel: "FD testbutton",
 
     // node config properties that the user can edit in the flow editor
     defaults: {
@@ -19,7 +19,7 @@
 
       // widget fields, i.e. values being transmitted to the FlexDash Widget
       enabled: { value: true },
-      color: { value: "primary" },
+      color: { value: "#6e0a1e" },
       output_value: { value: 25 },
       icon: { value: null },
       title: { value: 'Button' },
@@ -28,12 +28,27 @@
     // NR node label
     label() { return this.name || "flexdash testbutton" },
     labelStyle() { return this.name ? "node_label_italic" : "" },
+
+    oneditprepare() {
+      for (const k of ['output_value']) {
+        $("#node-input-"+k).typedInput({type:"str", types:["str","num"]})
+      }
+    },
   });
 </script>
 
 <script type="text/html" data-template-name="flexdash testbutton">
   <!-- Icons: https://fontawesome.com/v4/icons/ -->
   <!-- input types: https://www.w3schools.com/tags/att_input_type.asp -->
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-fd"><i class="fa fa-tag"></i> Dashboard</label>
+    <input type="text" id="node-input-fd">
+  </div>
+
   <div class="form-row">
     <label for="node-input-enabled"><i class="fa fa-check"></i>Enable button</span></label>
     <input type="checkbox" id="node-input-enabled" />
@@ -55,15 +70,6 @@
     <input type="text" id="node-input-output_value" placeholder="output-value" />
   </div>
   </br>
-
-  <div class="form-row">
-    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
-    <input type="text" id="node-input-name" placeholder="Name">
-  </div>
-  <div class="form-row">
-    <label for="node-input-fd"><i class="fa fa-tag"></i> Server</label>
-    <input type="text" id="node-input-fd">
-  </div>
 
 </script>
 

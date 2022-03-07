@@ -9,7 +9,7 @@
     inputs: 1,
     outputs: 0,
     icon: "font-awesome/fa-dashboard", // icon in flow editor
-    paletteLabel: "flexdash testgauge",
+    paletteLabel: "FD testgauge",
 
     // node config properties that the user can edit in the flow editor
     defaults: {
@@ -18,7 +18,6 @@
       name: { value: '' }, // name field of NR node (standard)
 
       // widget fields, i.e. values being transmitted to the FlexDash Widget
-      value: { value: null },
       unit: { value: "" },
       title: { value: 'Gauge' },
       color: { value: "#00ee00" },
@@ -30,12 +29,35 @@
     // NR node label
     label() { return this.name || "flexdash testgauge" },
     labelStyle() { return this.name ? "node_label_italic" : "" },
+
+    oneditprepare() {
+      for (const k of ['arc', 'min', 'max']) {
+        $("#node-input-"+k).typedInput({type:"num", types:["num"], typeField:`node-input-${k}-type`})
+      }
+    },
+
+    // widgets in FlexDash really want their params to have the right type, so we need to convert stuff!
+    // oneditsave() {
+    //   for (const k of ['value', 'arc', 'min', 'max']) {
+    //     this[k] = this[k] ? parseInt(this[k], 10) : null
+    //   }
+    // }
   });
 </script>
 
 <script type="text/html" data-template-name="flexdash testgauge">
   <!-- Icons: https://fontawesome.com/v4/icons/ -->
   <!-- input types: https://www.w3schools.com/tags/att_input_type.asp -->
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-fd"><i class="fa fa-tag"></i> Dashboard</label>
+    <input type="text" id="node-input-fd">
+  </div>
+  <br>
+
   <div class="form-row">
     <label for="node-input-title"><i class="fa fa-i-cursor"></i>gauge text label</span></label>
     <input type="text" id="node-input-title" placeholder="action" />
@@ -49,29 +71,23 @@
     <input type="color" id="node-input-color" />
   </div>
   <div class="form-row">
-    <label for="node-input-arc"><i class="fa fa-i-cursor"></i>degrees spanned by the arc of tha gauge</span></label>
+    <label for="node-input-arc"><i class="fa fa-i-cursor"></i>degrees spanned by the arc of the gauge</span></label>
     <input type="number" id="node-input-arc" />
+    <input type="hidden" id="node-input-arc-type" />
   </div>
-  </br>
+  <br>
 
   <div class="form-row">
     <label for="node-input-min"><i class="fa fa-i-cursor"></i>minimum value</span></label>
     <input type="number" id="node-input-min" />
+    <input type="hidden" id="node-input-min-type" />
   </div>
   <div class="form-row">
     <label for="node-input-max"><i class="fa fa-i-cursor"></i>maximum value</span></label>
     <input type="number" id="node-input-max" />
+    <input type="hidden" id="node-input-max-type" />
   </div>
-  </br>
 
-  <div class="form-row">
-    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
-    <input type="text" id="node-input-name" placeholder="Name">
-  </div>
-  <div class="form-row">
-    <label for="node-input-fd"><i class="fa fa-tag"></i> Server</label>
-    <input type="text" id="node-input-fd">
-  </div>
 </script>
 
 <script type="text/html" data-help-name="flexdash testgauge">
