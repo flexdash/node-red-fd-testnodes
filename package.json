@@ -1,8 +1,8 @@
 {
   "name": "@flexdash/node-red-fd-testnodes",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "A set of Node-RED FlexDash nodes to test FlexDash integration into Node-RED.",
-  "peerDependencies": {
+  "dependencies": {
       "@flexdash/node-red-flexdash": "^0.2.0"
   },
   "author": "Thorsten von Eicken",
@@ -23,11 +23,12 @@
     "version": "^2.0.0",
     "nodes": {
       "flexdash testbutton": "testbutton.js",
-      "flexdash testgauge": "testgauge.js"
+      "flexdash testgauge": "testgauge.js",
+      "flexdash testcustom": "testcustom.js"
     }
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=12.0.0"
   },
 "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
