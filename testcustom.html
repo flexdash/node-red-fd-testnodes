@@ -18,16 +18,12 @@
 </style>
 
 <script scoped>
-import VBtn from 'vuetify/lib/VBtn.vue'
-
 export default {
   // help displayed in the UI: the first line is used in the widgets menu and is always shown in
   // the edit card. Successive lines can be expanded in the card and are markdown-formatted.
   help: \`Custom widget, it could do anything.
 Pressing the button sends a message with a specified payload to a topic.
 The button may contain a title string and is centered in the widget.\`,
-
-  components: [ VBtn ],
 
   // properties are inputs to the widget. The type is used to display the appropriate kind of input
   // field and also to convert data (ex: string to number).
@@ -85,14 +81,14 @@ The button may contain a title string and is centered in the widget.\`,
 
     oneditprepare() {
       this.editor = RED.editor.createEditor({
-        id: 'node-input-source',
+        id: 'node-input-source-editor',
         mode: 'ace/mode/text',
         value: this.source
       })
     },
 
     oneditsave() {
-      $('#node-input-source').val(this.editor.getValue())
+      this.source = this.editor.getValue()
       this.editor.destroy()
       delete this.editor
     },
@@ -133,7 +129,8 @@ The button may contain a title string and is centered in the widget.\`,
     <small >Name of the param to which the msg.payload of incoming messages should be mapped.</small>
   </div>
   <div class="form-row node-text-editor-row" style="position:relative">
-    <div style="height: 220px; min-height:150px;" class="node-text-editor" id="node-input-source" >
+    <div style="height: 220px; min-height:150px;" class="node-text-editor"
+         id="node-input-source-editor" >
     </div>
   </div>
 </script>
