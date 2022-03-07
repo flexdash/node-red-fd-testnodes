@@ -1,0 +1,248 @@
+[
+    {
+        "id": "2616a723dfdcdc69",
+        "type": "flexdash testbutton",
+        "z": "56494f06ecf796f0",
+        "fd": "ad4328.f698dcd8",
+        "name": "count up",
+        "enabled": true,
+        "color": "#f66151",
+        "output_value": "up",
+        "icon": "mdi-arrow-down-bold",
+        "title": "UP",
+        "x": 200,
+        "y": 320,
+        "wires": [
+            [
+                "581055fc8e921b29"
+            ]
+        ]
+    },
+    {
+        "id": "d1260f509d6e3258",
+        "type": "flexdash testbutton",
+        "z": "56494f06ecf796f0",
+        "fd": "ad4328.f698dcd8",
+        "name": "count down",
+        "enabled": true,
+        "color": "#99c1f1",
+        "output_value": "down",
+        "icon": "mdi-arrow-down-bold",
+        "title": "DOWN",
+        "x": 190,
+        "y": 380,
+        "wires": [
+            [
+                "581055fc8e921b29"
+            ]
+        ]
+    },
+    {
+        "id": "581055fc8e921b29",
+        "type": "function",
+        "z": "56494f06ecf796f0",
+        "name": "counter",
+        "func": "switch (msg.payload) {\ncase \"reset\": context.set('incr', 1); return { payload: 0 }\ncase \"up\": context.set('incr', 1); return null\ncase \"down\": context.set('incr', -1); return null\ndefault: return { payload: msg.payload + context.get('incr') }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 320,
+        "wires": [
+            [
+                "1cf748462f03af58",
+                "ae20d27612ba8e14",
+                "93948bfd85d0c12b"
+            ]
+        ]
+    },
+    {
+        "id": "76782e8e2cd1a96d",
+        "type": "inject",
+        "z": "56494f06ecf796f0",
+        "name": "restart",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "reset",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "reset",
+        "payloadType": "str",
+        "x": 190,
+        "y": 260,
+        "wires": [
+            [
+                "581055fc8e921b29",
+                "ae20d27612ba8e14"
+            ]
+        ]
+    },
+    {
+        "id": "1cf748462f03af58",
+        "type": "flexdash testgauge",
+        "z": "56494f06ecf796f0",
+        "fd": "ad4328.f698dcd8",
+        "name": "counter gauge",
+        "unit": "",
+        "title": "count",
+        "color": "#00ee00",
+        "arc": 80,
+        "min": "0",
+        "max": 100,
+        "x": 740,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ae20d27612ba8e14",
+        "type": "delay",
+        "z": "56494f06ecf796f0",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 520,
+        "y": 400,
+        "wires": [
+            [
+                "581055fc8e921b29"
+            ]
+        ]
+    },
+    {
+        "id": "93948bfd85d0c12b",
+        "type": "debug",
+        "z": "56494f06ecf796f0",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "fbe3ad7d8f987e7e",
+        "type": "inject",
+        "z": "56494f06ecf796f0",
+        "name": "stop",
+        "props": [
+            {
+                "p": "reset",
+                "v": "true",
+                "vt": "bool"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 190,
+        "y": 440,
+        "wires": [
+            [
+                "ae20d27612ba8e14"
+            ]
+        ]
+    },
+    {
+        "id": "ad093786899aa50c",
+        "type": "flexdash testcustom",
+        "z": "56494f06ecf796f0",
+        "fd": "ad4328.f698dcd8",
+        "name": "reset button",
+        "payload": "title",
+        "source": "// Simplified button widget as starting point for your own custom widget\n\n<template>\n  <div class=\"pushbutton d-flex align-center justify-center\">\n    <v-btn large dense class=\"ma-auto\" max-width=\"95%\" v-bind=\"bindings\" @click=\"clickEv($event)\">\n      <span>{{ title }}</span>\n    </v-btn>\n  </div>\n</template>\n\n<style scoped>\n  .pushbutton { height: 100%; }\n</style>\n\n<script scoped>\n\nexport default {\n  // help displayed in the UI: the first line is used in the widgets menu and is always shown in\n  // the edit card. Successive lines can be expanded in the card and are markdown-formatted.\n  help: `Custom widget, it could do anything.\nPressing the button sends a message with a specified payload to a topic.\nThe button may contain a title string and is centered in the widget.`,\n\n  // properties are inputs to the widget. The type is used to display the appropriate kind of input\n  // field and also to convert data (ex: string to number).\n  props: {\n    enabled: { type: Boolean, default: true, tip: \"enable/disable button\" },\n    color: { type: String, default: \"primary\", tip: \"button color\" },\n    output_value: { default: \"reset\", tip: \"value sent on click\" },\n    title: { type: String, default: 'reset', tip: \"text shown in button\" },\n  },\n\n  // the presence of an output field is used by FlexDash to allow the widget to output messages\n  output: { default: null },\n\n  computed: {\n    // actual bindings passed into v-btn\n    bindings() { return {\n      disabled: !this.enabled,\n      color: this.color,\n    }},\n\n  },\n\n  methods: {\n    clickEv(ev) {\n      this.$emit('send', this.output_value)\n    },\n  },\n}\n</script>\n",
+        "x": 190,
+        "y": 520,
+        "wires": [
+            [
+                "7b6e7aa0c26d9695"
+            ]
+        ]
+    },
+    {
+        "id": "7b6e7aa0c26d9695",
+        "type": "change",
+        "z": "56494f06ecf796f0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "reset",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 560,
+        "wires": [
+            [
+                "ae20d27612ba8e14",
+                "581055fc8e921b29"
+            ]
+        ]
+    },
+    {
+        "id": "821db84a70e90c29",
+        "type": "comment",
+        "z": "56494f06ecf796f0",
+        "name": "Counter up/down/reset demo flow. Open me for more info...",
+        "info": "To open the dashboard, open the configuration nodes side-panel, click on the flexdash config, and find the \"point your browser here\" link (typically http://localhost:1880/flexdash).\nThis flow has a counter that counts every second. Click the restart inject node or the reset button in the dashboard to get it started.\nThe counter is shown as a gauge on the dashboard.\nThere are three buttons on the dashboard: up, down, and reset.\nThe up and down buttons are implemented using flexdash button nodes.\nThe gauge is implemented using a flexdash gauge node.\nFinally, the reset button is implemented using a flexdash custom node, meaning the Vue.js source code for the widget in the dashboard is pasted into the node's text editor. This is FlexDash's equivalent of the ui-template node.",
+        "x": 340,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ad4328.f698dcd8",
+        "type": "flexdash config",
+        "port": "1881",
+        "ioOpts": "",
+        "path": "/flexdash",
+        "redServer": true,
+        "saveConfig": true,
+        "allOrigins": true,
+        "ctxName": "persistent",
+        "devServer": false,
+        "devInstall": false
+    }
+]
