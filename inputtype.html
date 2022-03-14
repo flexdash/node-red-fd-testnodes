@@ -1,0 +1,53 @@
+<script type="text/javascript">
+  RED.nodes.registerType('test inputtype', {
+    category: 'testing',
+    inputs: 1,
+    outputs: 0,
+    paletteLabel: "test inputtype",
+    defaults: {
+      name: { value: '' },
+      flag1: { value: null },
+      flag2: { value: false },
+      flag3: { value: '' },
+      flag4: { value: false },
+    },
+
+    oneditprepare() {
+      for (const k of ['flag1', 'flag2', 'flag3']) {
+        $("#node-input-"+k).typedInput({type:"bool", types:["bool"], typeField: "node-input-"+k+"-type"})
+      }
+      // load flag4's html dynamically
+      let url = `resources/@flexdash/node-red-fd-testnodes/inputtype.html`
+      $('#dyn-load').load(url, () => {
+        // after inserting into DOM, initialize the typed input fields
+        for (const k of ['flag4']) {
+          console.log(k, $("#node-input-"+k))
+          $("#node-input-"+k).typedInput({type:"bool", types:["bool"], typeField: "node-input-"+k+"-type"})
+        }
+      })
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="test inputtype">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-flag1">Flag 1</label>
+    <input type="text" id="node-input-flag1">
+    <input type="hidden" id="node-input-flag1-type" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-flag2">Flag 2</label>
+    <input type="text" id="node-input-flag2">
+    <input type="hidden" id="node-input-flag2-type" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-flag3">Flag 3</label>
+    <input type="text" id="node-input-flag3">
+    <input type="hidden" id="node-input-flag3-type" />
+  </div>
+  <div id="dyn-load"></div>
+</script>

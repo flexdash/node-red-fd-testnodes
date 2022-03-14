@@ -11,7 +11,7 @@ module.exports = function (RED) {
 
     // propagate this node's config to the FD widget
     // The third arg is the kind of widget to create, if it doesn't exist
-    fd.initWidget(this, config, 'PushButton')
+    fd.initWidget(this, config, 'TestButton')
 
     // handle flow input messages, basically massage them a bit and update the FD widget
     this.on("input", msg => {

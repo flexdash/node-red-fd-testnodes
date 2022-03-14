@@ -11,8 +11,8 @@ module.exports = function (RED) {
     // propagate this node's config to the FD widget
     // The third arg is the kind of widget to create, if it doesn't exist
     fd.initWidget(this, config, `nr__${this.id}`)
-    console.log("Update custom widget with config:",
-      Object.keys(config).map(k => k + ":" + JSON.stringify(config[k]).substring(0,20)).join(', '))
+    // console.log("Update custom widget with config:",
+    //   Object.keys(config).map(k => k + ":" + JSON.stringify(config[k]).substring(0,20)).join(', '))
 
     // handle flow input messages, basically massage them a bit and update the FD widget
     this.on("input", msg => {

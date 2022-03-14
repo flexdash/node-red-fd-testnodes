@@ -31,66 +31,61 @@
     labelStyle() { return this.name ? "node_label_italic" : "" },
 
     oneditprepare() {
-      for (const k of ['arc', 'min', 'max']) {
-        $("#node-input-"+k).typedInput({type:"num", types:["num"], typeField:`node-input-${k}-type`})
-      }
-    },
+      $('#fd-tab-props').load("resources/@flexdash/node-red-fd-testnodes/testgauge-props.html", () => {
+        $('.fd-typed-input').each((ix, el) => {
+          el = $(el)
+          const it = el.attr('input-type')
+          if (it && it !== 'any') {
+            el.typedInput({type:it, types:[it], typeField: el.id + '-type'})
+          } else {
+            el.typedInput({typeField: el.id + '-type'})
+          }
+        })
+      })
 
-    // widgets in FlexDash really want their params to have the right type, so we need to convert stuff!
-    // oneditsave() {
-    //   for (const k of ['value', 'arc', 'min', 'max']) {
-    //     this[k] = this[k] ? parseInt(this[k], 10) : null
-    //   }
-    // }
-  });
+      // for (const k of ['arc', 'min', 'max']) {
+      //   $("#node-input-"+k).typedInput({type:"num", types:["num"], typeField:`node-input-${k}-type`})
+      // }
+
+      var tabs = RED.tabs.create({ id: "fd-tabs", onchange(tab) {
+          $("#fd-tabs-content").children().hide()
+          $("#" + tab.id).show()
+      }})
+      tabs.addTab({ id: "fd-tab-node", label: "Node config" })
+      tabs.addTab({ id: "fd-tab-props", label: "Widget props" })
+      if (!this.name || !this.fd) tabs.activateTab("fd-tab-node")
+      else tabs.activateTab("fd-tab-params")
+    },
+  })
 </script>
 
 <script type="text/html" data-template-name="flexdash testgauge">
   <!-- Icons: https://fontawesome.com/v4/icons/ -->
-  <!-- input types: https://www.w3schools.com/tags/att_input_type.asp -->
-  <div class="form-row">
-    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
-    <input type="text" id="node-input-name" placeholder="Name">
-  </div>
-  <div class="form-row">
-    <label for="node-input-fd"><i class="fa fa-tag"></i> Dashboard</label>
-    <input type="text" id="node-input-fd">
-  </div>
-  <br>
-
-  <div class="form-row">
-    <label for="node-input-title"><i class="fa fa-i-cursor"></i>gauge text label</span></label>
-    <input type="text" id="node-input-title" placeholder="action" />
-  </div>
-  <div class="form-row">
-    <label for="node-input-unit"><i class="fa fa-i-cursor"></i>superscript after the value</span></label>
-    <input type="text" id="node-input-unit" placeholder="°C" />
-  </div>
-  <div class="form-row">
-    <label for="node-input-color"><i class="fa fa-paint-brush"></i>color of filled segment</span></label>
-    <input type="color" id="node-input-color" />
-  </div>
-  <div class="form-row">
-    <label for="node-input-arc"><i class="fa fa-i-cursor"></i>degrees spanned by the arc of the gauge</span></label>
-    <input type="number" id="node-input-arc" />
-    <input type="hidden" id="node-input-arc-type" />
-  </div>
-  <br>
-
-  <div class="form-row">
-    <label for="node-input-min"><i class="fa fa-i-cursor"></i>minimum value</span></label>
-    <input type="number" id="node-input-min" />
-    <input type="hidden" id="node-input-min-type" />
-  </div>
-  <div class="form-row">
-    <label for="node-input-max"><i class="fa fa-i-cursor"></i>maximum value</span></label>
-    <input type="number" id="node-input-max" />
-    <input type="hidden" id="node-input-max-type" />
+  <!-- row of tabs at the top -->
+  <div class="form-row fd-tabs-row">
+    <ul style="min-width: 600px; margin-bottom: 20px;" id="fd-tabs"></ul>
   </div>
 
+  <div id="fd-tabs-content" style="min-height: calc(100% - 95px);">
+
+    <!-- tab for the node properties -->
+    <div id="fd-tab-node" style="display:none">
+      <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+      </div>
+      <div class="form-row">
+        <label for="node-input-fd"><i class="fa fa-th"></i> Dashboard</label>
+        <input type="text" id="node-input-fd">
+      </div>
+    </div>
+
+    <!-- tab for the widget params -->
+    <div id="fd-tab-props" style="display:none"></div>
+  </div>
 </script>
 
-<script type="text/html" data-help-name="flexdash testgauge">
+<script type="text/html" data-help-name="flexdash testgauge" id="test-gauge-help">
   <p>A Node-RED dashboard FlexDash node to display a gauge on the dashboard.</p>
   <p>This is test for integrating FlexDash nodes into Node-Red.</p>
 </script>

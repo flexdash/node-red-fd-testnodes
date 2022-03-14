@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "A set of Node-RED FlexDash nodes to test FlexDash integration into Node-RED.",
   "dependencies": {
-      "@flexdash/node-red-flexdash": "^0.2.5"
+      "@flexdash/node-red-flexdash": ">=0.3.0"
   },
   "author": "Thorsten von Eicken",
   "contributors": [
@@ -24,7 +24,8 @@
     "nodes": {
       "flexdash testbutton": "testbutton.js",
       "flexdash testgauge": "testgauge.js",
-      "flexdash testcustom": "testcustom.js"
+      "flexdash testcustom": "testcustom.js",
+      "foo": "inputtype.js"
     }
   },
   "engines": {
