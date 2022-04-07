@@ -2,10 +2,12 @@
      Copyright (c) 2022 by Thorsten von Eicken, see LICENSE -->
 
 <script type="text/javascript">
+  console.log("Loading testbutton")
   RED.nodes.registerType('flexdash testbutton', {
     // properties of the NR node used by NR itself
     category: 'flexdash',
-    color: "#fdf0c2",
+    flexdash: true,
+    color: "#F0E4B8",
     inputs: 1,
     outputs: 1,
     icon: "font-awesome/fa-hand-pointer-o", // icon in flow editor
@@ -13,8 +15,10 @@
 
     // node config properties that the user can edit in the flow editor
     defaults: {
-      // required fields for FlexDash Widget nodes
-      fd: { type:"flexdash config", value:"", required:true }, // FlexDash config node
+      fd_container: { type:"flexdash container", value:"", required:true },
+      fd_cols: { value: 1, validate: function(v) { return v>0 && v<=20 } },
+      fd_rows: { value: 1, validate: function(v) { return v>0 && v<=100 } },
+      fd_pos: { value: 999, validate: function(v) { return v>=0 } },
       name: { value: '' }, // name field of NR node (standard)
 
       // widget fields, i.e. values being transmitted to the FlexDash Widget
@@ -30,9 +34,23 @@
     labelStyle() { return this.name ? "node_label_italic" : "" },
 
     oneditprepare() {
+      //console.log("***** prepare:", this)
+      // configure typed input fields
       for (const k of ['output_value']) {
         $("#node-input-"+k).typedInput({type:"str", types:["str","num"]})
       }
+      // configure parent field with most recently used
+      const sel_add = $('#node-input-fd_container [selected]').val() == "_ADD_"
+      if (sel_add && fd_last_container) {
+        $('#node-config-input-fd_container option').removeClass("selected")
+        $(`#node-config-input-fd_container [value=${fd_last_container}]`).addClass('selected')
+      }
+    },
+
+    oneditsave() {
+      //console.log("***** save:", this)
+      const p = $('#node-config-input-fd_container [selected]').val()
+      if (p != "_ADD_") fd_last_container = p // remember the last container
     },
   });
 </script>
@@ -41,32 +59,39 @@
   <!-- Icons: https://fontawesome.com/v4/icons/ -->
   <!-- input types: https://www.w3schools.com/tags/att_input_type.asp -->
   <div class="form-row">
-    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
-    <label for="node-input-fd"><i class="fa fa-tag"></i> Dashboard</label>
-    <input type="text" id="node-input-fd">
+    <label for="node-input-fd_container">Container</label>
+    <input type="text" id="node-input-fd_container">
   </div>
+  <div class="form-row">
+    <label for="node-input-rows">Rows</label>
+    <input type="number" id="node-input-fd_rows" style="width: 6em">
+    <label for="node-input-cols">Cols</label>
+    <input type="number" id="node-input-fd_cols" style="width: 6em">
+  </div>
+  <input type="hidden" id="node-input-fd_pos">
 
   <div class="form-row">
-    <label for="node-input-enabled"><i class="fa fa-check"></i>Enable button</span></label>
+    <label for="node-input-enabled">Enable button</span></label>
     <input type="checkbox" id="node-input-enabled" />
   </div>
   <div class="form-row">
-    <label for="node-input-title"><i class="fa fa-i-cursor"></i>Button text Label</span></label>
+    <label for="node-input-title">Button text Label</span></label>
     <input type="text" id="node-input-title" placeholder="action" />
   </div>
   <div class="form-row">
-    <label for="node-input-icon"><i class="fa fa-i-cursor"></i>Button icon (material design icons)</span></label>
+    <label for="node-input-icon">Button icon (material design icons)</span></label>
     <input type="text" id="node-input-icon" placeholder="mdi-airplane-takeoff" />
   </div>
   <div class="form-row">
-    <label for="node-input-color"><i class="fa fa-paint-brush"></i>Button Color</span></label>
+    <label for="node-input-color">Button Color</span></label>
     <input type="color" id="node-input-color" />
   </div>
   <div class="form-row">
-    <label for="node-input-output_value"><i class="fa fa-i-cursor"></i>Value output when pressed</span></label>
+    <label for="node-input-output_value"></i>Value output when pressed</span></label>
     <input type="text" id="node-input-output_value" placeholder="output-value" />
   </div>
   </br>
