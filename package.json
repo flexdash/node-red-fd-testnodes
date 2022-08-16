@@ -20,13 +20,16 @@
     "url": "git+https://github.com/flexdash/node-red-fd-testnodes.git"
   },
   "node-red": {
-    "version": "^2.0.0",
+    "version": ">2.0.0",
     "nodes": {
-      "flexdash testbutton": "testbutton.js",
-      "flexdash testgauge": "testgauge.js",
-      "flexdash testcustom": "testcustom.js",
-      "foo": "inputtype.js"
+      "flexdash button-bar": "button-bar.js"
     }
+  },
+  "node-red-unused": {
+    "flexdash testbutton": "testbutton.js",
+    "flexdash testgauge": "testgauge.js",
+    "flexdash testcustom": "testcustom.js",
+    "foo": "inputtype.js"
   },
   "engines": {
     "node": ">=12.0.0"

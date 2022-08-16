@@ -1,0 +1,92 @@
+<!-- Node-RED editor code for the FlexDash ButtonBar widget -->
+
+<script type="module">
+  // fetch the widget info: a bunch of JSON produced by gen-widget-node.js
+  import widgetInfo from './resources/@flexdash/node-red-fd-testnodes/button-bar-info.js'
+
+  // construct defaults for the node, setting all but bool to null so widget defaults happen
+  var widgetDefaults = Object.fromEntries(Object.values(widgetInfo.props).map(p =>
+    [p.name, {value: p.default}]
+  ))
+  //console.log(widgetInfo.name, "widgetDefaults", widgetDefaults)
+  
+  // construct the palette label
+  var paletteLabel = widgetInfo.name_text.toLocaleLowerCase()
+
+  // update the text for the help sidebar
+  var helpHtml = flexdash.load_help_html(widgetInfo, paletteLabel)
+
+  flexdash.insert_general_edit("fd-button-bar", "fd-tab-general")
+
+
+  RED.nodes.registerType(widgetInfo.type_kebab, {
+    // properties of the NR node used by NR itself
+    category: 'flexdash',
+    color: "#F0E4B8",
+    inputs: 1,
+    outputs: widgetInfo.output ? 1 : 0,
+    icon: "font-awesome/fa-rocket", // icon in flow editor
+    paletteLabel,
+
+    // node config properties that the user can edit in the flow editor
+    defaults: {
+      // required fields for FlexDash Widget nodes
+      fd_container: {
+        type: "flexdash container", value: "", required: true, // grid/panel
+        validate: flexdash.validate_widget_container },
+      fd_cols: { value: 1, validate(v) { return v>0 && v<=20 } }, // widget width
+      fd_rows: { value: 1, validate(v) { return v>0 && v<=100 } }, // widget height
+      fd_array: { value: false }, // create array of this widget
+      fd_array_max: { value: 10, validate(v) { return v>0 && v<1000} }, // max array size
+      // name field of Node-RED node (standard)
+      name: { value: '' },
+  
+      // widget fields, i.e. values being transmitted to the FlexDash Widget as props
+      ...widgetDefaults,
+    },
+
+    // Node-RED node label
+    label() {
+      const lbl = this.name || paletteLabel
+      return this.fd_array ? lbl+'[ ]' : lbl // indicate whether this is an array-widget 
+    },
+    labelStyle() { return this.name ? "node_label_italic" : "" },
+
+    oneditprepare() {
+      // fetch the html to edit the widget props and insert into DOM
+      flexdash.load_props_edit(this, widgetInfo, "fd-tab-props")
+      // select last-used container
+      flexdash.select_last_container()
+
+      // manage tabs
+      const tabs = RED.tabs.create({id: "fd-tabs", onchange: function(tab) {
+        $("#fd-tabs-content").children().hide()
+        $("#" + tab.id).show()
+        RED.tray.resize()
+      }})
+      tabs.addTab({ id: "fd-tab-general", label: "General" })
+      tabs.addTab({ id: "fd-tab-props", label: "Widget props" })
+      tabs.activateTab(this.fd_container ? "fd-tab-props" : "fd-tab-general")
+    },
+  })
+</script>
+
+<script type="text/html" data-template-name="fd-button-bar">
+  <div class="form-row">
+    <ul id="fd-tabs" style="min-width: 600px; margin-bottom: 20px;"></ul>
+  </div>
+  <div id="fd-tabs-content" style="min-height: calc(100% - 95px);">
+    <!-- general properties tab -->
+    <div id="fd-tab-general" style="display:none"><!-- dynamically loaded --></div>
+    <!-- widget props -->
+    <div id="fd-tab-props" style="display:none"><!-- dynamically loaded --></div>
+  </div>
+  <!-- non-tab alternative, remove all above, remove 'manage tabs' code, and use this:
+  <div id="fd-tab-general" style="display:contents"></div>
+  <div id="fd-tab-props" style="display:contents"></div>
+  -->
+</script>
+
+<script type="text/markdown" data-help-name="fd-button-bar">
+  <p id="fd-button-bar-help-text"><i>Ooops, this should have filled-in dynamically...</i></p>
+</script>
