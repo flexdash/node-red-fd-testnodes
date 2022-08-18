@@ -1,14 +1,11 @@
 {
   "name": "@flexdash/node-red-fd-testnodes",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A set of Node-RED FlexDash nodes to test FlexDash integration into Node-RED.",
   "dependencies": {
       "@flexdash/node-red-flexdash": ">=0.3.0"
   },
   "author": "Thorsten von Eicken",
-  "contributors": [
-    "Bart Butenaers (https://github.com/bartbutenaers)"
-  ],
   "license": "MIT",
   "keywords": [ "dashboard", "flexdash", "node-red", "example" ],
   "bugs": {
