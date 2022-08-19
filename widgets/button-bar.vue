@@ -11,7 +11,10 @@
         <div class="d-flex flex-column">
           <span v-if="btn.label">{{ btn.label }}</span>
           <span v-if="btn.line2 && !btn.line2_color">{{ btn.line2 }}</span>
-          <v-chip v-if="btn.line2 && btn.line2_color">{{ btn.line2 }}</v-chip>
+          <v-chip v-if="btn.line2 && btn.line2_color"
+                  :color="btn.line2_color" variant="flat" class="justify-center">
+            {{ btn.line2 }}
+          </v-chip>
         </div>
       </v-btn>
     </div>
@@ -24,7 +27,10 @@
           <div class="d-flex flex-column">
             <span v-if="btn.label">{{ btn.label }}</span>
             <span v-if="btn.line2 && !btn.line2_color">{{ btn.line2 }}</span>
-            <v-chip v-if="btn.line2 && btn.line2_color" :color="btn.line2_color" variant="flat">{{ btn.line2 }}</v-chip>
+            <v-chip v-if="btn.line2 && btn.line2_color"
+                    :color="btn.line2_color" variant="flat" class="justify-center">
+              {{ btn.line2 }}
+            </v-chip>
           </div>
         </v-btn>
       </v-btn-group>
