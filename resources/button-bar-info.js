@@ -8,9 +8,9 @@ export default {
   "name": "ButtonBar",
   "name_text": "Button Bar",
   "type_kebab": "fd-button-bar",
-  "help": "Bar of buttons.\nDisplay a bar of buttons with any combination of icons, labels and second lines.\nPressing a button sends a message with either the 0-based index of the button in the bar or\nthe `value` of the button.\n\nThe buttons are configured using the `button` prop, which must be an array of objects with\nthe following properties (all are optional):\n\n- `icon`: icon name with 'mdi-' prefix, names can be found at https://materialdesignicons.com\n- `label`: button label,\n- `line2`: second line of text,\n- `line2_color`: color of second line, shows as a \"pill\",\n- `value`: value to send when button is clicked,\n- `disabled`: whether button is disabled,\n",
+  "help": "Bar of buttons.\nDisplay a bar of buttons with any combination of icons, labels and second lines.\nPressing a button sends a message with either the index of the button in the bar (0-based) or\nthe `value` of the button.\n\nThe buttons are configured using the `button` prop, which must be an array of objects with\nthe following properties (all are optional):\n\n- `icon`: icon name with 'mdi-' prefix, names can be found at https://materialdesignicons.com\n- `label`: button label,\n- `line2`: second line of text,\n- `line2_color`: color of second line, shows as a \"pill\",\n- `value`: value to send when button is clicked,\n- `disabled`: whether button is disabled,\n- 'selected_color': color of button when selected,\n\nButtons can be shown as selected by setting the `value` prop to the index of the selected button\nor by passing in an array of booleans, one for each button.\n",
   "help_title": "Bar of buttons",
-  "help_body": "Display a bar of buttons with any combination of icons, labels and second lines.\nPressing a button sends a message with either the 0-based index of the button in the bar or\nthe `value` of the button.\n\nThe buttons are configured using the `button` prop, which must be an array of objects with\nthe following properties (all are optional):\n\n- `icon`: icon name with 'mdi-' prefix, names can be found at https://materialdesignicons.com\n- `label`: button label,\n- `line2`: second line of text,\n- `line2_color`: color of second line, shows as a \"pill\",\n- `value`: value to send when button is clicked,\n- `disabled`: whether button is disabled,",
+  "help_body": "Display a bar of buttons with any combination of icons, labels and second lines.\nPressing a button sends a message with either the index of the button in the bar (0-based) or\nthe `value` of the button.\n\nThe buttons are configured using the `button` prop, which must be an array of objects with\nthe following properties (all are optional):\n\n- `icon`: icon name with 'mdi-' prefix, names can be found at https://materialdesignicons.com\n- `label`: button label,\n- `line2`: second line of text,\n- `line2_color`: color of second line, shows as a \"pill\",\n- `value`: value to send when button is clicked,\n- `disabled`: whether button is disabled,\n- 'selected_color': color of button when selected,\n\nButtons can be shown as selected by setting the `value` prop to the index of the selected button\nor by passing in an array of booleans, one for each button.",
   "output": true,
   "props": {
     "title": {
@@ -64,6 +64,16 @@ export default {
       "default_html": "default",
       "type": "string",
       "input_type": "str"
+    },
+    "stretch": {
+      "name": "stretch",
+      "name_text": "Stretch",
+      "name_kebab": "stretch",
+      "tip": "Stretch buttons horizontally to fill widget. ",
+      "default": false,
+      "default_html": "false",
+      "type": "boolean",
+      "input_type": "bool"
     }
   },
   "payload_prop": "value"

@@ -54,6 +54,16 @@ module.exports = function (RED) {
     "default_html": "default",
     "type": "string",
     "input_type": "str"
+  },
+  "stretch": {
+    "name": "stretch",
+    "name_text": "Stretch",
+    "name_kebab": "stretch",
+    "tip": "Stretch buttons horizontally to fill widget. ",
+    "default": false,
+    "default_html": "false",
+    "type": "boolean",
+    "input_type": "bool"
   }
 }
   const widgetDefaults = Object.fromEntries(Object.values(widgetProps).map(p => [p.name, p.default]))
