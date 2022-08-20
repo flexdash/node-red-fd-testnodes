@@ -70,7 +70,7 @@ or by passing in an array of booleans, one for each button.
   props: {
     value: { default: null, tip: "index or value of selected button or array of bool per button" },
     buttons: { default: [{label:"button 1"}],
-      tip: "array of buttons with icon, label, color, line2, line2_color, disabled, value" },
+      tip: "array of buttons with icon, label, value, color, selected_color, line2, line2_color, disabled" },
     variant: { type: String, default: 'default', tip: "values: 'default', 'flex'" },
     stretch: { type: Boolean, default: false, tip: "stretch buttons horizontally to fill widget" },
   },
