@@ -46,7 +46,7 @@ export default {
       "name": "buttons",
       "name_text": "Buttons",
       "name_kebab": "buttons",
-      "tip": "Array of buttons with icon, label, color, line2, line2_color, disabled, value. ",
+      "tip": "Array of buttons with icon, label, value, color, selected_color, line2, line2_color, disabled. ",
       "default": [
         {
           "label": "button 1"

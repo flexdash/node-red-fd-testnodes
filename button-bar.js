@@ -36,7 +36,7 @@ module.exports = function (RED) {
     "name": "buttons",
     "name_text": "Buttons",
     "name_kebab": "buttons",
-    "tip": "Array of buttons with icon, label, color, line2, line2_color, disabled, value. ",
+    "tip": "Array of buttons with icon, label, value, color, selected_color, line2, line2_color, disabled. ",
     "default": [
       {
         "label": "button 1"
@@ -106,12 +106,14 @@ module.exports = function (RED) {
       widget.setProps(msg.topic, props)
     })
 
-    // handle widget input messages, we receive the payload sent by the widget
+    // handle messages from the widget, we receive the potential array element topic, the payload
+    // sent by the widget, and the socket ID
     if (true) {
       widget.onInput((topic, payload, socket) => {
         // propagate the payload into the flow and attach the FD socket ID
         let msg = { payload: payload, _flexdash_socket: socket }
-        if (topic != undefined) msg.topic = topic
+        if (topic != undefined) msg.topic = topic // array elt topic has priority
+        else if (config.fd_output_topic) msg.topic = config.fd_output_topic // optional non-array topic
         this.send(msg)
       })
     }
