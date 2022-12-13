@@ -7,6 +7,7 @@ module.exports = function (RED) {
     "name": "title",
     "name_text": "Title",
     "name_kebab": "title",
+    "msg_name": "title",
     "type": "string",
     "input_type": "str",
     "tip": "Text to display in the widget header. ",
@@ -17,6 +18,7 @@ module.exports = function (RED) {
     "name": "popup_info",
     "name_text": "Popup Info",
     "name_kebab": "popup-info",
+    "msg_name": "popup_info",
     "type": "string",
     "input_type": "str",
     "tip": "Info text to display in (i) pop-up. ",
@@ -24,8 +26,9 @@ module.exports = function (RED) {
     "default_html": null
   },
   "value": {
+    "msg_name": "payload",
     "name": "value",
-    "name_text": "Value",
+    "name_text": "Payload",
     "name_kebab": "value",
     "tip": "Index or value of selected button or array of bool per button. ",
     "default": null,
@@ -33,6 +36,7 @@ module.exports = function (RED) {
     "input_type": "any"
   },
   "buttons": {
+    "msg_name": "buttons",
     "name": "buttons",
     "name_text": "Buttons",
     "name_kebab": "buttons",
@@ -46,6 +50,7 @@ module.exports = function (RED) {
     "input_type": "any"
   },
   "variant": {
+    "msg_name": "variant",
     "name": "variant",
     "name_text": "Variant",
     "name_kebab": "variant",
@@ -56,6 +61,7 @@ module.exports = function (RED) {
     "input_type": "str"
   },
   "stretch": {
+    "msg_name": "stretch",
     "name": "stretch",
     "name_text": "Stretch",
     "name_kebab": "stretch",
@@ -99,11 +105,14 @@ module.exports = function (RED) {
       }
       // prepare update of widget props
       const props = Object.assign({}, msg) // shallow clone
-      // msg.payload is interpreted as setting the value prop
-      if ('value' && 'payload' in msg) props['value'] = msg.payload
+      // remap msg.payload to the prop expected by the widget
+      if ('value' && 'payload' in props) {
+        props['value'] = props.payload
+        delete props.payload
+      }
       // delete fields that we don't want to pass to the widget, setProps ignores ones with leading _
       for (const p of ['topic', 'payload']) delete props[p]
-      widget.setProps(msg.topic, props)
+      widget.setProps(props, { topic: msg.topic, socket: msg._fd_socket})
     })
 
     // handle messages from the widget, we receive the potential array element topic, the payload
@@ -111,7 +120,16 @@ module.exports = function (RED) {
     if (true) {
       widget.onInput((topic, payload, socket) => {
         // propagate the payload into the flow and attach the FD socket ID
-        let msg = { payload: payload, _flexdash_socket: socket }
+        let msg = { payload: payload, _fd_socket: socket }
+        // if loopback is requested, feed the message back to ourselves, implementation-wise,
+        // set the payload property of the widget to the payload of the message
+        if (config.fd_loopback) {
+          // remap msg.payload to the prop expected by the widget
+          const pl = 'value' || 'payload'
+          console.log(`loopback: ${pl} <= ${payload}`)
+          // WARNING: loopback is broadcast, this could have "interesting" effects
+          widget.set(pl, payload, {topic}) // do we need to make a shallow clone here?
+        }
         if (topic != undefined) msg.topic = topic // array elt topic has priority
         else if (config.fd_output_topic) msg.topic = config.fd_output_topic // optional non-array topic
         this.send(msg)

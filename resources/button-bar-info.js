@@ -17,6 +17,7 @@ export default {
       "name": "title",
       "name_text": "Title",
       "name_kebab": "title",
+      "msg_name": "title",
       "type": "string",
       "input_type": "str",
       "tip": "Text to display in the widget header. ",
@@ -27,6 +28,7 @@ export default {
       "name": "popup_info",
       "name_text": "Popup Info",
       "name_kebab": "popup-info",
+      "msg_name": "popup_info",
       "type": "string",
       "input_type": "str",
       "tip": "Info text to display in (i) pop-up. ",
@@ -34,8 +36,9 @@ export default {
       "default_html": null
     },
     "value": {
+      "msg_name": "payload",
       "name": "value",
-      "name_text": "Value",
+      "name_text": "Payload",
       "name_kebab": "value",
       "tip": "Index or value of selected button or array of bool per button. ",
       "default": null,
@@ -43,6 +46,7 @@ export default {
       "input_type": "any"
     },
     "buttons": {
+      "msg_name": "buttons",
       "name": "buttons",
       "name_text": "Buttons",
       "name_kebab": "buttons",
@@ -56,6 +60,7 @@ export default {
       "input_type": "any"
     },
     "variant": {
+      "msg_name": "variant",
       "name": "variant",
       "name_text": "Variant",
       "name_kebab": "variant",
@@ -66,6 +71,7 @@ export default {
       "input_type": "str"
     },
     "stretch": {
+      "msg_name": "stretch",
       "name": "stretch",
       "name_text": "Stretch",
       "name_kebab": "stretch",

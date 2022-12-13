@@ -110,7 +110,7 @@ or by passing in an array of booleans, one for each button.
         disabled: !!b.disabled,
         color: b.color || "primary",
         flat: true,
-        active: Array.isArray(this.value) ? this.value[ix] : ix===this.value || b.value==this.value,
+        active: Array.isArray(this.value) ? !!this.value[ix] : ix===this.value || b.value==this.value,
       }))
     },
 
@@ -127,7 +127,7 @@ or by passing in an array of booleans, one for each button.
         density: "default",
         height,
         elevation: 1,
-        active: this.btn_active[ix],
+        active: !!this.btn_active[ix],
       }))
     },
 
