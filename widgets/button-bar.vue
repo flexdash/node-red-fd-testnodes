@@ -63,7 +63,7 @@ the following properties (all are optional):
 - \`disabled\`: whether button is disabled,
 - \'selected_color\': color of button when selected,
 
-Buttons can be shown as selected by setting the \`value\` prop to the index of the selected button
+Buttons can be shown as selected by setting the \`value\` prop to the value of the selected button
 or by passing in an array of booleans, one for each button.
 `,
  
@@ -85,7 +85,7 @@ or by passing in an array of booleans, one for each button.
     // return an array of booleans to indicate which buttons are selected
     selected() {
       return this.buttons.map((b, ix) =>
-        Array.isArray(this.value) ? this.value[ix] : ix===this.value || b.value==this.value
+        Array.isArray(this.value) ? this.value[ix] : b.value == this.value
       )
     },
 
